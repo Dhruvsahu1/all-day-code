@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input oninput="debouncePopulateDiv()" id="FirstNumber" type="text" placeholder="FirstNumber"></input> <br></br>
+    <input oninput="debouncePopulateDiv()" id="SecondNumber" type="text" placeholder="SecondNumber"></input>  <br></br>
+    <!-- <button onclick="populateDiv()"> calculate sum</button>  <br></br> -->
+    <div id = "finalsum"></div>
+</body>
+<script>
+
+    let timeout;
+    function debouncePopulateDiv(){
+        clearTimeout(timeout);
+        setTimeout(function(){
+            populateDiv()
+        },100)
+    }
+    function populateDiv(){
+       const element = document.getElementById("finalsum")
+    //    console.log(element)
+    //    element.innerHTML = "hello world"
+    const a = document.getElementById("FirstNumber").value;
+    const b = document.getElementById("SecondNumber").value;
+    // element.innerHTML = parseInt(a)+parseInt(b)
+    fetch("https://sum-server.100xdevs.com/sum?a= " +a + "&b=" + b)
+    .then(function(response){
+        response.text()
+        .then(function(ans){
+            document.getElementById("finalsum").innerHTML = ans;
+        })
+    })
+    }
+
+    // cleaner way to do the above thing is async await function
+
+    async function populateDiv2(){
+        const a = document.getElementById("FirstNumber").value;
+        const b = document.getElementById("SecondNumber").value;
+
+        const response  = await fetch("https://sum-server.100xdevs.com/sum?a= " +a + "&b=" + b)
+        const ans = await response.text()
+        document.getElementById("finalsum").innerHTML = ans;
+    }
+</script>
+</html>

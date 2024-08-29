@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input oninput="debouncePopulateDiv()" id="Principle amount" type="text" placeholder="Principle amount"></input> <br></br>
+    <input oninput="debouncePopulateDiv()" id="intrest rate" type="text" placeholder="intrest rate"></input>  <br></br>
+    <input oninput="debouncePopulateDiv()" id="time interval" type="text" placeholder="time interval"></input>  <br></br>
+    <div id = "intrestedAmount"></div>
+</body>
+<script>
+    let timeout;
+    function debouncePopulateDiv(){
+        clearTimeout(timeout);
+        setTimeout(function(){
+            PopulateDiv()
+        })
+    }
+
+    async function PopulateDiv(){
+        const a = document.getElementById("Principle amount").value;
+        const b = document.getElementById("intrest rate").value;
+        const c = document.getElementById("time interval").value;
+
+        const response = await fetch("https://sum-server.100xdevs.com/interest?principal=" + a + "&rate=" + b + "&time=" + c)
+        const ans = await response.text()
+        document.getElementById("intrestedAmount").innerHTML = ans;
+    }
+</script>
+</html>
